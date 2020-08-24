@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/KTLDIAZ/CLionProjects/TaskManager/Process.cpp
+Process.h
+C:/Users/KTLDIAZ/CLionProjects/TaskManager/Process.h
+
+C:/Users/KTLDIAZ/CLionProjects/TaskManager/Process.h
+string
+-
+iostream
+-
+bits/stdc++.h
+-
+
+C:/Users/KTLDIAZ/CLionProjects/TaskManager/main.cpp
+iostream
+-
+Process.h
+C:/Users/KTLDIAZ/CLionProjects/TaskManager/Process.h
+
