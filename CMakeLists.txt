@@ -3,4 +3,4 @@ project(TaskManager)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(TaskManager main.cpp Process.h Process.cpp)
+add_executable(TaskManager main.cpp Process.cpp Process.h)
