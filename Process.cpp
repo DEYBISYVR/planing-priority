@@ -1,5 +1,5 @@
 //
-// Created by KTLDIAZ on 24/08/2020.
+// Created by KTLDIAZ on 21/08/2020.
 //
 
 #include "Process.h"
@@ -8,65 +8,51 @@ void ask(const string& x) {
     cout << "Type the " + x;
 }
 
-void push(Node **front, Node **rear) {
-    int priority,time_arrived,cpu;
-    string name;
-    Node* newNode = (Node*)malloc(sizeof(Node));
+void push(Node *&head) {
+    Process newProcess{};
+    Node* newNode = new Node;
+    cin.ignore();
     ask("name:");
-    cin >> name;
-    newNode->name = name;
+    cin.getline(newProcess.name,30);
     ask("priority:");
-    cin >> priority;
-    newNode->priority = priority;
+    cin >> newProcess.priority;
     ask("cpu:");
-    cin >> cpu;
-    newNode->cpu = cpu;
+    cin >> newProcess.cpu;
     ask("time_arrived:");
-    cin >>time_arrived;
-    newNode->time_arrived = time_arrived;
+    cin >> newProcess.time_arrived;
     cout << endl;
-    newNode->status = "ready";
+    newProcess.status = 0;
+    newProcess.waiting_time = 0;
+    newProcess.finished = 0;
 
-    // If linked list is empty
-    if (*front == nullptr) {
-        *front = newNode;
-        *rear = newNode;
-        newNode->next = nullptr;
+    newNode->data= newProcess;
+
+    Node *aux = head;
+    Node *aux2;
+
+    while(aux != nullptr && aux->data.priority < newProcess.priority ){
+        aux2 = aux;
+        aux = aux->next;
     }
-    else {
-        // If priority is less than or equal front node's priority, then insert at the front.
-        if (priority <= (*front)->priority) {
-            newNode->next = *front;
-            (*front)->prev = newNode->next;
-            *front = newNode;
-        }
-            // If priority is more rear node's priority, then insert after the rear.
-        else if (priority > (*rear)->priority) {
-            newNode->next = nullptr;
-            (*rear)->next = newNode;
-            newNode->prev = (*rear)->next;
-            *rear = newNode;
-        } else {
-            // Handle other cases, find position where we need to insert
-            Node* start = (*front)->next;
-            while (start->priority > priority)
-                start = start->next;
-            (start->prev)->next = newNode;
-            newNode->next = start->prev;
-            newNode->prev = (start->prev)->next;
-            start->prev = newNode->next;
-        }
+
+    if(head == aux){
+        head = newNode;
+    }else {
+        aux2->next = newNode;
     }
+
+    newNode->next = aux;
 }
 
 void show(Node *node) {
-    while (node != nullptr) {
+    Node *current = node;
+    while (current != nullptr) {
         cout << "******************" << endl;
-        cout << "Process: " << node->name << "\nPriority: " << node->priority
-             << "\nCPU: " << node->cpu << "\nStatus: " <<  node->status
-             << "\nTime arrived: " << node->time_arrived  << "\nWaiting time: "
-             << node->waiting_time << "\nFinished: " << node->finished << endl;
+        cout << "Process: " << current->data.name << "\nPriority: " << current->data.priority
+             << "\nCPU: " << current->data.cpu << "\nStatus: " <<  current->data.status
+             << "\nTime arrived: " << current->data.time_arrived  << "\nWaiting time: "
+             << current->data.waiting_time << "\nFinished: " << current->data.finished << endl;
         cout << "******************" << endl;
-        node = node->next;
+        current = current->next;
     }
 }

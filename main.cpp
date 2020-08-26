@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Node *front = nullptr, *rear = nullptr;
+Node *head = nullptr;
 void menu();
 void processMenu();
 //void mmuMenu();
@@ -22,7 +22,7 @@ int main() {
                 cout << "Beta phase" << endl;
                 break;
             default:
-                cout << option << ": in not a valid option" << endl << endl;
+                cout << option << ": is not a valid option" << endl << endl;
         }
     }while (option < 3);
     cout << "Exiting program" << endl;
@@ -40,10 +40,10 @@ void processMenu(){
     cout << endl;
     switch (option) {
         case 1:
-            push(&front,&rear);
+            push(head);
             break;
         case 2:
-            show(front);
+            show(head);
             break;
         default:
             cout << option << ": in not a valid option" << endl;

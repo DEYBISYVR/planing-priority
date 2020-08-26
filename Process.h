@@ -7,23 +7,28 @@
 
 #include <string>
 #include <iostream>
+#include <cstdlib>
 #include <bits/stdc++.h>
 
 using namespace std;
 
-struct Node {
-    string name;
-    string status;
+struct Process {
+    char name[30];
+    int status; //1 = ready, 2 = finished, 3 = blocked
     int priority;
     int cpu;
     int time_arrived;
-    int waiting_time = 0;
-    int finished = 0;
-    struct Node *prev,*next;
+    int waiting_time;
+    int finished;
+};
+
+struct Node {
+    Process data;
+    struct Node *next;
 };
 
 void ask(const string& x);
-void show(Node*  node);
-void push(Node** front, Node** rear);
+void show(Node *);
+void push(Node *&);
 
 #endif //TASKMANAGER_PROCESS_H
