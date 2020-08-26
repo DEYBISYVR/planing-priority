@@ -47,8 +47,8 @@ void push(Node *&head) {
 void sort(Node *&head){
     int swapped;
 
-    Node *left; // left pointer will always point to the start of the list
-    Node *right = nullptr; // right pointer will always point to the end of the list
+    Node *left;
+    Node *right = nullptr;
     do {
         swapped = 0;
         left = head;
@@ -59,8 +59,6 @@ void sort(Node *&head){
             }
             left = left->next;
         }
-        //as the largest element is at the end of the list, assign that to rPtr as there is no need to
-        //check already sorted list
         right = left;
 
     } while (swapped);
