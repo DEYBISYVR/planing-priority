@@ -10,7 +10,7 @@ void processMenu();
 
 int main() {
     int option;
-    do{
+    do {
         menu();
         cin >> option;
         cout << endl;
@@ -21,16 +21,20 @@ int main() {
             case 2:
                 cout << "Beta phase" << endl;
                 break;
+            case 3:
+                sort(head);
+                simulate(head);
+                break;
             default:
                 cout << option << ": is not a valid option" << endl << endl;
         }
-    }while (option < 3);
+    }while (option < 4);
     cout << "Exiting program" << endl;
     return 0;
 }
 
 void menu(){
-    cout << "1. Process settings \n2. MMU settings \n3. Exit \nSelect:" ;
+    cout << "1. Process settings \n2. MMU settings \n3. Simulate \n4. Exit \nSelect:" ;
 }
 
 void processMenu(){
@@ -44,6 +48,9 @@ void processMenu(){
             break;
         case 2:
             show(head);
+            break;
+        case 3:
+            cout << endl;
             break;
         default:
             cout << option << ": in not a valid option" << endl;

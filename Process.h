@@ -30,5 +30,8 @@ struct Node {
 void ask(const string& x);
 void show(Node *);
 void push(Node *&);
+void sort(Node *&);
+void swapNodes(Node *, Node *);
+void simulate(Node *&);
 
 #endif //TASKMANAGER_PROCESS_H

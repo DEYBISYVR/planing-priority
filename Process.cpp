@@ -27,25 +27,57 @@ void push(Node *&head) {
 
     newNode->data= newProcess;
 
-    Node *aux = head;
+    Node *aux1 = head;
     Node *aux2;
 
-    while(aux != nullptr && aux->data.priority < newProcess.priority ){
-        aux2 = aux;
-        aux = aux->next;
+    while (aux1 != nullptr && aux1->data.priority < newProcess.priority) {
+        aux2 = aux1;
+        aux1 = aux1->next;
     }
 
-    if(head == aux){
+    if (head == aux1) {
         head = newNode;
-    }else {
+    } else {
         aux2->next = newNode;
     }
 
-    newNode->next = aux;
+    newNode->next = aux1;
 }
 
-void show(Node *node) {
-    Node *current = node;
+void sort(Node *&head){
+    int swapped;
+
+    Node *left; // left pointer will always point to the start of the list
+    Node *right = nullptr; // right pointer will always point to the end of the list
+    do {
+        swapped = 0;
+        left = head;
+        while (left->next != right) {
+            if (left->data.time_arrived > left->next->data.time_arrived && left->data.priority == left->next->data.priority) {
+                swapNodes(left, left->next);
+                swapped = 1;
+            }
+            left = left->next;
+        }
+        //as the largest element is at the end of the list, assign that to rPtr as there is no need to
+        //check already sorted list
+        right = left;
+
+    } while (swapped);
+}
+
+void swapNodes(Node *node1, Node *node2) {
+    Process temp = node1->data;
+    node1->data = node2 -> data;
+    node2->data = temp;
+}
+
+void simulate(Node *&head){
+    cout << "beta phase" << endl;
+}
+
+void show(Node *head) {
+    Node *current = head;
     while (current != nullptr) {
         cout << "******************" << endl;
         cout << "Process: " << current->data.name << "\nPriority: " << current->data.priority
