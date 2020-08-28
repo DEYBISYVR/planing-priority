@@ -3,9 +3,12 @@
 
 using namespace std;
 
+int cpu = 0;
 Node *head = nullptr;
 void menu();
 void processMenu();
+void ask(const string& x);
+Process add();
 //void mmuMenu();
 
 int main() {
@@ -23,7 +26,7 @@ int main() {
                 break;
             case 3:
                 sort(head);
-                simulate(head);
+                simulate(head, cpu);
                 break;
             default:
                 cout << option << ": is not a valid option" << endl << endl;
@@ -43,16 +46,43 @@ void processMenu(){
     cin  >> option;
     cout << endl;
     switch (option) {
-        case 1:
-            push(head);
+        case 1: {
+            Process newProcess = add();
+            cpu += newProcess.cpu;
+            push(head,newProcess);
             break;
-        case 2:
+        }
+        case 2: {
             show(head);
             break;
-        case 3:
+        }
+        case 3: {
             cout << endl;
             break;
+        }
         default:
             cout << option << ": in not a valid option" << endl;
     }
+}
+
+void ask(const string& x) {
+    cout << "Type the " + x;
+}
+
+Process add() {
+    Process newProcess{};
+    cin.ignore();
+    ask("name:");
+    cin.getline(newProcess.name,30);
+    ask("priority:");
+    cin >> newProcess.priority;
+    ask("cpu:");
+    cin >> newProcess.cpu;
+    ask("time_arrived:");
+    cin >> newProcess.time_arrived;
+    cout << endl;
+    newProcess.status = "ready";
+    newProcess.waiting_time = 0;
+    newProcess.success_time = 0;
+    return newProcess;
 }
