@@ -14,24 +14,26 @@ using namespace std;
 
 struct Process {
     char name[30];
-    int status; //1 = ready, 2 = finished, 3 = blocked
+    string status;
     int priority;
     int cpu;
     int time_arrived;
     int waiting_time;
-    int finished;
+    int success_time;
 };
 
 struct Node {
     Process data;
-    struct Node *next;
+    struct Node *next{};
 };
 
-void ask(const string& x);
 void show(Node *);
-void push(Node *&);
+void push(Node *&,const Process&);
 void sort(Node *&);
+//void pop(Node *&);
+//void popAll(Node *&);
 void swapNodes(Node *, Node *);
-void simulate(Node *&);
+void *simulate(Node *&, int);
+void print(Process);
 
 #endif //TASKMANAGER_PROCESS_H

@@ -4,29 +4,9 @@
 
 #include "Process.h"
 
-void ask(const string& x) {
-    cout << "Type the " + x;
-}
-
-void push(Node *&head) {
-    Process newProcess{};
+void push(Node *&head, const Process& newProcess) {
     Node* newNode = new Node;
-    cin.ignore();
-    ask("name:");
-    cin.getline(newProcess.name,30);
-    ask("priority:");
-    cin >> newProcess.priority;
-    ask("cpu:");
-    cin >> newProcess.cpu;
-    ask("time_arrived:");
-    cin >> newProcess.time_arrived;
-    cout << endl;
-    newProcess.status = 0;
-    newProcess.waiting_time = 0;
-    newProcess.finished = 0;
-
     newNode->data= newProcess;
-
     Node *aux1 = head;
     Node *aux2;
 
@@ -46,9 +26,9 @@ void push(Node *&head) {
 
 void sort(Node *&head){
     int swapped;
-
     Node *left;
     Node *right = nullptr;
+
     do {
         swapped = 0;
         left = head;
@@ -60,7 +40,6 @@ void sort(Node *&head){
             left = left->next;
         }
         right = left;
-
     } while (swapped);
 }
 
@@ -70,19 +49,75 @@ void swapNodes(Node *node1, Node *node2) {
     node2->data = temp;
 }
 
-void simulate(Node *&head){
-    cout << "beta phase" << endl;
+/*void pop(Node *&head) {
+    Node *aux;
+    aux = head;
+    head = aux->next;
+    delete aux;
+}
+
+void popAll(Node *&head) {
+    Node *aux;
+    while (head != nullptr) {
+        aux = head;
+        head = aux->next;
+        delete aux;
+    }
+}*/
+
+void *simulate(Node *&head, int cpu) {
+    Node *aux;
+    aux =head;
+    int execution_time=0;
+    cout << "Process     Priority    CPU     Status     Time arrived     Waiting time     Succes time" << endl;
+    while(aux != nullptr) {
+        head->data.status = "execution";
+        if(aux->data.cpu < 4 && aux->data.status != "success") {
+            cpu -= aux->data.cpu;
+            execution_time += aux->data.cpu;
+            aux->data.cpu -= aux->data.cpu;
+            aux->data.status = "success";
+            print(aux->data);
+        }
+
+        if (aux->data.cpu > 0) {
+            print(aux->data);
+            aux->data.status = "blocked";
+            aux->data.cpu -= 4;
+            aux->data.waiting_time += execution_time;
+            aux->data.success_time += 4;
+            if(aux->data.cpu == 0)
+                aux->data.status = "success";
+            cpu -= 4;
+            execution_time += 4;
+            print(aux->data);
+        } else if (aux->data.cpu == 0) {
+            aux->data.status = "success";
+            aux->data.waiting_time += execution_time;
+            aux->data.success_time += aux->data.waiting_time;
+            print(aux->data);
+        }
+        aux = aux->next;
+        if(aux == nullptr){
+            aux = head;
+            execution_time = 0;
+        }
+        if(cpu == 0)
+            break;
+    }
 }
 
 void show(Node *head) {
     Node *current = head;
+    cout << "Process     Priority    CPU     Status     Time arrived     WaitingT     SuccesT" << endl;
     while (current != nullptr) {
-        cout << "******************" << endl;
-        cout << "Process: " << current->data.name << "\nPriority: " << current->data.priority
-             << "\nCPU: " << current->data.cpu << "\nStatus: " <<  current->data.status
-             << "\nTime arrived: " << current->data.time_arrived  << "\nWaiting time: "
-             << current->data.waiting_time << "\nFinished: " << current->data.finished << endl;
-        cout << "******************" << endl;
+        print(current->data);
         current = current->next;
     }
+}
+
+void print(Process process) {
+    cout << process.name << "              " << process.priority << "         " << process.cpu << "      "
+         <<  process.status << "           " << process.time_arrived  << "               " << process.waiting_time
+         << "           " << process.success_time << endl;
 }
