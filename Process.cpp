@@ -64,7 +64,7 @@ void popAll(Node *&head) {
     }
 }*/
 
-void simulate(Node *&head, int cpu) {
+void simulate(Node *&head, int cpu, int quantum) {
     Node *aux;
     aux =head;
     int execution_time=0;
@@ -85,12 +85,12 @@ void simulate(Node *&head, int cpu) {
             aux->data.waiting_time += execution_time;
             print(aux->data);
             aux->data.status = "blocked";
-            aux->data.cpu -= 4;
-            aux->data.success_time += 4;
+            aux->data.cpu -= quantum;
+            aux->data.success_time += quantum;
             if(aux->data.cpu == 0)
                 aux->data.status = "success";
-            cpu -= 4;
-            execution_time += 4;
+            cpu -= quantum;
+            execution_time += quantum;
             print(aux->data);
         }
         aux = aux->next;

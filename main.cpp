@@ -13,6 +13,7 @@ Process add();
 
 int main() {
     int option;
+    int quantum = 4;
     do {
         menu();
         cin >> option;
@@ -25,19 +26,24 @@ int main() {
                 cout << "Beta phase" << endl;
                 break;
             case 3:
+                ask("Quantum: ");
+                cin >> quantum;
+                break;
+            case 4:
                 sort(head);
-                simulate(head, cpu);
+                system("cls");
+                simulate(head, cpu, quantum);
                 break;
             default:
                 cout << option << ": is not a valid option" << endl << endl;
         }
-    }while (option < 4);
+    }while (option < 5);
     cout << "Exiting program" << endl;
     return 0;
 }
 
 void menu(){
-    cout << "1. Process settings \n2. MMU settings \n3. Simulate \n4. Exit \nSelect:" ;
+    cout << "1. Process settings \n2. MMU settings \n3.Quantum \n4. Simulate \nType any number to exit(except 1,2,3,4) \nSelect:" ;
 }
 
 void processMenu(){
@@ -61,7 +67,7 @@ void processMenu(){
             break;
         }
         default:
-            cout << option << ": in not a valid option" << endl;
+            cout << option << ": is not a valid option" << endl;
     }
 }
 

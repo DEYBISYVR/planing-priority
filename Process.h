@@ -33,7 +33,7 @@ void sort(Node *&);
 //void pop(Node *&);
 //void popAll(Node *&);
 void swapNodes(Node *, Node *);
-void simulate(Node *&, int);
+void simulate(Node *&, int, int);
 void print(Process);
 string spaces(const string&);
 
