@@ -55,7 +55,6 @@ void swapNodes(Node *node1, Node *node2) {
     head = aux->next;
     delete aux;
 }
-
 void popAll(Node *&head) {
     Node *aux;
     while (head != nullptr) {
