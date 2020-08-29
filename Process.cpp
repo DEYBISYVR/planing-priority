@@ -70,17 +70,18 @@ void simulate(Node *&head, int cpu) {
     int execution_time=0;
     cout << "Process     Priority    CPU     Status     Time arrived     Waiting time     Succes time" << endl;
     while(aux != nullptr) {
-        if(head->data.cpu != 0)
-            head->data.status = "execution";
-        if(aux->data.cpu <= 4 && aux->data.status != "success") {
-            cpu -= aux->data.cpu;
-            execution_time += aux->data.cpu;
-            aux->data.cpu -= aux->data.cpu;
+        if(aux->data.cpu != 0)
+            aux->data.status = "execution";
+        if (aux->data.cpu <= 4 && aux->data.status != "success") {
             print(aux->data);
+            cpu -= aux->data.cpu;
+            aux->data.cpu = 0;
             aux->data.status = "success";
-        }
-
-        if (aux->data.cpu > 0) {
+            execution_time += aux->data.cpu;
+            aux->data.waiting_time += execution_time;
+            aux->data.success_time += aux->data.waiting_time;
+            print(aux->data);
+        } else if (aux->data.cpu > 0) {
             print(aux->data);
             aux->data.status = "blocked";
             aux->data.cpu -= 4;
@@ -90,11 +91,6 @@ void simulate(Node *&head, int cpu) {
                 aux->data.status = "success";
             cpu -= 4;
             execution_time += 4;
-            print(aux->data);
-        } else if (aux->data.cpu == 0 && aux->data.status != "success") {
-            aux->data.status = "success";
-            aux->data.waiting_time += execution_time;
-            aux->data.success_time += aux->data.waiting_time;
             print(aux->data);
         }
         aux = aux->next;
