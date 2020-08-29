@@ -75,17 +75,17 @@ void simulate(Node *&head, int cpu) {
         if (aux->data.cpu <= 4 && aux->data.status != "success") {
             print(aux->data);
             cpu -= aux->data.cpu;
+            aux->data.waiting_time += execution_time;
+            execution_time += aux->data.cpu;
             aux->data.cpu = 0;
             aux->data.status = "success";
-            execution_time += aux->data.cpu;
-            aux->data.waiting_time += execution_time;
             aux->data.success_time += aux->data.waiting_time;
             print(aux->data);
         } else if (aux->data.cpu > 0) {
+            aux->data.waiting_time += execution_time;
             print(aux->data);
             aux->data.status = "blocked";
             aux->data.cpu -= 4;
-            aux->data.waiting_time += execution_time;
             aux->data.success_time += 4;
             if(aux->data.cpu == 0)
                 aux->data.status = "success";
