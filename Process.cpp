@@ -65,19 +65,20 @@ void popAll(Node *&head) {
     }
 }*/
 
-void *simulate(Node *&head, int cpu) {
+void simulate(Node *&head, int cpu) {
     Node *aux;
     aux =head;
     int execution_time=0;
     cout << "Process     Priority    CPU     Status     Time arrived     Waiting time     Succes time" << endl;
     while(aux != nullptr) {
-        head->data.status = "execution";
-        if(aux->data.cpu < 4 && aux->data.status != "success") {
+        if(head->data.cpu != 0)
+            head->data.status = "execution";
+        if(aux->data.cpu <= 4 && aux->data.status != "success") {
             cpu -= aux->data.cpu;
             execution_time += aux->data.cpu;
             aux->data.cpu -= aux->data.cpu;
-            aux->data.status = "success";
             print(aux->data);
+            aux->data.status = "success";
         }
 
         if (aux->data.cpu > 0) {
@@ -91,7 +92,7 @@ void *simulate(Node *&head, int cpu) {
             cpu -= 4;
             execution_time += 4;
             print(aux->data);
-        } else if (aux->data.cpu == 0) {
+        } else if (aux->data.cpu == 0 && aux->data.status != "success") {
             aux->data.status = "success";
             aux->data.waiting_time += execution_time;
             aux->data.success_time += aux->data.waiting_time;
@@ -102,8 +103,10 @@ void *simulate(Node *&head, int cpu) {
             aux = head;
             execution_time = 0;
         }
-        if(cpu == 0)
+        if(cpu == 0) {
+            aux->data.status = "success";
             break;
+        }
     }
 }
 
@@ -118,6 +121,15 @@ void show(Node *head) {
 
 void print(Process process) {
     cout << process.name << "              " << process.priority << "         " << process.cpu << "      "
-         <<  process.status << "           " << process.time_arrived  << "               " << process.waiting_time
+         <<  process.status << spaces(process.status) << process.time_arrived  << "               " << process.waiting_time
          << "           " << process.success_time << endl;
+}
+
+string spaces(const string& word) {
+    if(word == "success" || word == "blocked") {
+        return "          ";
+    } else if(word == "ready") {
+        return "            ";
+    }
+    return "        ";
 }
